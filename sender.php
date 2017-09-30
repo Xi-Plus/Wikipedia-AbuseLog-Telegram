@@ -25,7 +25,7 @@ $res = cURL($C["wikiapi"]."?".http_build_query(array(
 	"format" => "json",
 	"list" => "abuselog",
 	"aflend" => $data["lasttime"],
-	"aflprop" => "ids|user|title|action|result|timestamp|revid|filter",
+	"aflprop" => "ids|user|title|action|result|timestamp|hidden|revid|filter",
 	"afllimit" => "50"
 )));
 if ($res === false) {
@@ -35,12 +35,11 @@ $res = json_decode($res, true);
 echo count($res["query"]["abuselog"])."\n";
 if (count($res["query"]["abuselog"])) {
 	foreach (array_reverse($res["query"]["abuselog"]) as $log) {
-		var_dump($log);
 		if ($log["id"] <= $data["lastid"]) {
 			continue;
 		}
 		$time = strtotime($log["timestamp"])+3600*8;
-		$message = date("Y年m月d日", $time)." (".$C["day"][date("w", $time)].") ".date("H:i", $time)."：".$log["user"]." ([對話](https://zh.wikipedia.org/wiki/User_talk:".$log["user"].") | [貢獻](https://zh.wikipedia.org/wiki/User_talk:".$log["user"].")) 在 [".$log["title"]."](https://zh.wikipedia.org/wiki/".$log["title"].") 執行操作 \"".$log["action"]."\" 時觸發了 [過濾器 ".$log["filter_id"]."](https://zh.wikipedia.org/wiki/Special:AbuseFilter/".$log["filter_id"].")。 採取的行動：".$log["result"]."； 過濾器描述：".$log["filter"]." ([詳細資料](https://zh.wikipedia.org/wiki/Special:AbuseLog/".$log["id"].") | [差異](https://zh.wikipedia.org/wiki/Special:Diff/".$log["revid"]."))";
+		$message = date("Y年m月d日", $time)." (".$C["day"][date("w", $time)].") ".date("H:i", $time)."：[".$log["user"]."](https://zh.wikipedia.org/wiki/Special:Contributions/".$log["user"].") ([對話](https://zh.wikipedia.org/wiki/User_talk:".$log["user"].")) 在 [".$log["title"]."](https://zh.wikipedia.org/wiki/".$log["title"].") 執行操作 \"".$log["action"]."\" 時觸發了 [過濾器 ".$log["filter_id"]."](https://zh.wikipedia.org/wiki/Special:AbuseFilter/".$log["filter_id"].")。 採取的行動：".$log["result"]."； 過濾器描述：".$log["filter"]." ([詳細資料](https://zh.wikipedia.org/wiki/Special:AbuseLog/".$log["id"].")".(isset($log["revid"])?" | [差異](https://zh.wikipedia.org/wiki/Special:Diff/".$log["revid"].")":"").")";
 		$commend = 'curl https://api.telegram.org/bot'.$C['token'].'/sendMessage -d "chat_id='.$C['chat_id'].'&parse_mode=Markdown&disable_web_page_preview=1&text='.urlencode($message).'"';
 		system($commend);
 	}
