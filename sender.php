@@ -39,8 +39,31 @@ if (count($res["query"]["abuselog"])) {
 			continue;
 		}
 		$time = strtotime($log["timestamp"])+3600*8;
-		$message = date("Y年m月d日", $time)." (".$C["day"][date("w", $time)].") ".date("H:i", $time)."：[".$log["user"]."](https://zh.wikipedia.org/wiki/Special:Contributions/".$log["user"].") ([對話](https://zh.wikipedia.org/wiki/User_talk:".$log["user"].")) 在 [".$log["title"]."](https://zh.wikipedia.org/wiki/".$log["title"].") 執行操作 \"".$log["action"]."\" 時觸發了 [過濾器 ".$log["filter_id"]."](https://zh.wikipedia.org/wiki/Special:AbuseFilter/".$log["filter_id"].")。 採取的行動：".$log["result"]."； 過濾器描述：".$log["filter"]." ([詳細資料](https://zh.wikipedia.org/wiki/Special:AbuseLog/".$log["id"].")".(isset($log["revid"])?" | [差異](https://zh.wikipedia.org/wiki/Special:Diff/".$log["revid"].")":"").")";
-		$commend = 'curl https://api.telegram.org/bot'.$C['token'].'/sendMessage -d "chat_id='.$C['chat_id'].'&parse_mode=Markdown&disable_web_page_preview=1&text='.urlencode($message).'"';
+		$message = date("Y年m月d日", $time).' ('.$C["day"][date("w", $time)].') '.date("H:i", $time).'：';
+		$message .= '<a href="https://zh.wikipedia.org/wiki/Special:Contributions/'.$log["user"].'">'.$log["user"].'</a> (<a href="https://zh.wikipedia.org/wiki/User_talk:'.$log["user"].'">對話</a>) ';
+		$message .= '在 <a href="https://zh.wikipedia.org/wiki/'.$log["title"].'">'.$log["title"].'</a> ';
+		$message .= '執行操作 "'.$log["action"].'" 時';
+		if ($log["filter_id"] === "") {
+			$message .= '觸發防濫用過濾器。 ';
+		} else {
+			$message .= '觸發了 <a href="https://zh.wikipedia.org/wiki/Special:AbuseFilter/'.$log["filter_id"].'">過濾器 '.$log["filter_id"].'</a>。 ';
+		}
+		$message .= '採取的行動：'.$log["result"].'； ';
+		$message .= '過濾器描述：'.$log["filter"].' ';
+		if (isset($log["id"]) || isset($log["revid"])) {
+			$message .= '(';
+			if (isset($log["id"])) {
+				$message .= '<a href="https://zh.wikipedia.org/wiki/Special:AbuseLog/'.$log["id"].'">詳細資料</a>';
+			}
+			if (isset($log["id"]) && isset($log["revid"])) {
+				$message .= ' | ';
+			}
+			if (isset($log["revid"])) {
+				$message .= '<a href="https://zh.wikipedia.org/wiki/Special:Diff/'.$log["revid"].'">差異</a>';
+			}
+			$message .= ')';
+		}
+		$commend = 'curl https://api.telegram.org/bot'.$C['token'].'/sendMessage -d "chat_id='.$C['chat_id'].'&parse_mode=HTML&disable_web_page_preview=1&text='.urlencode($message).'"';
 		system($commend);
 	}
 	$data["lasttime"] = $res["query"]["abuselog"][0]["timestamp"];
