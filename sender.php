@@ -55,10 +55,10 @@ if (count($res["query"]["abuselog"])) {
 			if (isset($log["id"])) {
 				$message .= '<a href="https://zh.wikipedia.org/wiki/Special:AbuseLog/'.$log["id"].'">詳細資料</a>';
 			}
-			if (isset($log["id"]) && isset($log["revid"])) {
+			if (isset($log["id"]) && isset($log["revid"]) && $log["revid"]) {
 				$message .= ' | ';
 			}
-			if (isset($log["revid"])) {
+			if (isset($log["revid"]) && $log["revid"]) {
 				$message .= '<a href="https://zh.wikipedia.org/wiki/Special:Diff/'.$log["revid"].'">差異</a>';
 			}
 			$message .= ')';
