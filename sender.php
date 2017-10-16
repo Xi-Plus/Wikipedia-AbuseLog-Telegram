@@ -40,7 +40,7 @@ if (count($res["query"]["abuselog"])) {
 			continue;
 		}
 		$time = strtotime($log["timestamp"])+3600*8;
-		$message = date("Y年m月d日", $time).' ('.$C["day"][date("w", $time)].') '.date("H:i", $time).'：';
+		$message = AFLogo($log["filter_id"], $log["filter"]).date("Y年m月d日", $time).' ('.$C["day"][date("w", $time)].') '.date("H:i", $time).'：';
 		$message .= '<a href="https://zh.wikipedia.org/wiki/Special:Contributions/'.$log["user"].'">'.$log["user"].'</a> (<a href="https://zh.wikipedia.org/wiki/User_talk:'.$log["user"].'">對話</a>) ';
 		$message .= '在 <a href="https://zh.wikipedia.org/wiki/'.$log["title"].'">'.$log["title"].'</a> ';
 		$message .= '執行操作 "'.$log["action"].'" 時';
@@ -66,6 +66,7 @@ if (count($res["query"]["abuselog"])) {
 		}
 		$commend = 'curl https://api.telegram.org/bot'.$C['token'].'/sendMessage -d "chat_id='.$C['chat_id'].'&parse_mode=HTML&disable_web_page_preview=1&text='.urlencode($message).'"';
 		system($commend);
+		echo "\n";
 	}
 	$data["lasttime"] = $res["query"]["abuselog"][0]["timestamp"];
 	$data["lastid"] = $res["query"]["abuselog"][0]["id"];
