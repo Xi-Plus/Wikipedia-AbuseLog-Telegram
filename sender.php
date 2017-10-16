@@ -3,6 +3,7 @@ require_once(__DIR__.'/config/config.php');
 date_default_timezone_set('UTC');
 require(__DIR__.'/curl.php');
 require(__DIR__.'/login.php');
+require(__DIR__.'/function.php');
 if (!in_array(PHP_SAPI, $C["allowsapi"])) {
 	exit("No permission");
 }
@@ -48,7 +49,7 @@ if (count($res["query"]["abuselog"])) {
 		} else {
 			$message .= '觸發了 <a href="https://zh.wikipedia.org/wiki/Special:AbuseFilter/'.$log["filter_id"].'">過濾器 '.$log["filter_id"].'</a>。 ';
 		}
-		$message .= '採取的行動：'.$log["result"].'； ';
+		$message .= '採取的行動：'.Result($log["result"]).'； ';
 		$message .= '過濾器描述：'.$log["filter"].' ';
 		if (isset($log["id"]) || isset($log["revid"])) {
 			$message .= '(';
