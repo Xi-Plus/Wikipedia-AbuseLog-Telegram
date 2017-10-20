@@ -61,6 +61,7 @@ function AFLogo($id='', $filter='') {
 				case '阻止加入破坏者常用词汇': return '🔞 ';
 				case '添加不可信来源': return '👨‍💻🔗 ';
 				case '地域或团体观点（安全）': return '👥👀 ';
+				case '违反两岸用语方针': return '👎🇨🇳🇹🇼 ';
 				default : return '';
 			}
 		default : return '';
