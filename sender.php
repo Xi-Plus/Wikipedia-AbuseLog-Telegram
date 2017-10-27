@@ -41,8 +41,8 @@ if (count($res["query"]["abuselog"])) {
 		}
 		$time = strtotime($log["timestamp"])+3600*8;
 		$message = AFLogo($log["filter_id"], $log["filter"]).date("Y年m月d日", $time).' ('.$C["day"][date("w", $time)].') '.date("H:i", $time).'：';
-		$message .= '<a href="https://zh.wikipedia.org/wiki/Special:Contributions/'.$log["user"].'">'.$log["user"].'</a> (<a href="https://zh.wikipedia.org/wiki/User_talk:'.$log["user"].'">對話</a>) ';
-		$message .= '在 <a href="https://zh.wikipedia.org/wiki/'.$log["title"].'">'.$log["title"].'</a> ';
+		$message .= '<a href="https://zh.wikipedia.org/wiki/Special:Contributions/'.rawurlencode($log["user"]).'">'.$log["user"].'</a> (<a href="https://zh.wikipedia.org/wiki/User_talk:'.rawurlencode($log["user"]).'">對話</a>) ';
+		$message .= '在 <a href="https://zh.wikipedia.org/wiki/'.rawurlencode($log["title"]).'">'.$log["title"].'</a> ';
 		$message .= '執行操作 "'.$log["action"].'" 時';
 		if ($log["filter_id"] === "") {
 			$message .= '觸發防濫用過濾器。 ';
