@@ -10,6 +10,9 @@ function Result($result='') {
 		case 'tag':
 			return '🔖';
 		
+		case 'blockautopromote':
+			return '撤銷自動確認';
+		
 		default:
 			return $result;
 	}
