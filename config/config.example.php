@@ -1,7 +1,6 @@
 <?php
 
 $C['token'] = 'token';
-$C['webhook'] = 'webhook_url';
 $C['chat_id'] = 'chat_id';
 
 $C["wikiapi"] = "https://zh.wikipedia.org/w/api.php";
