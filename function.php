@@ -13,6 +13,9 @@ function Result($result='') {
 		case 'blockautopromote':
 			return '撤銷自動確認';
 		
+		case '':
+			return '無';
+		
 		default:
 			return $result;
 	}
