@@ -35,6 +35,11 @@ if ($res === false) {
 $res = json_decode($res, true);
 echo count($res["query"]["abuselog"])."\n";
 if (count($res["query"]["abuselog"])) {
+	file_put_contents($datafile, json_encode([
+		"lasttime" => $res["query"]["abuselog"][0]["timestamp"],
+		"lastid" => $res["query"]["abuselog"][0]["id"]
+	]));
+
 	foreach (array_reverse($res["query"]["abuselog"]) as $log) {
 		if ($log["id"] <= $data["lastid"]) {
 			continue;
@@ -71,8 +76,5 @@ if (count($res["query"]["abuselog"])) {
 		system($commend);
 		echo "\n";
 	}
-	$data["lasttime"] = $res["query"]["abuselog"][0]["timestamp"];
-	$data["lastid"] = $res["query"]["abuselog"][0]["id"];
 }
 
-file_put_contents($datafile, json_encode($data));
