@@ -39,6 +39,9 @@ if (count($res["query"]["abuselog"])) {
 		if ($log["id"] <= $data["lastid"]) {
 			continue;
 		}
+		if (in_array($log["filter_id"], $C["blacklist"])) {
+			continue;
+		}
 		$time = strtotime($log["timestamp"])+3600*8;
 		$message = AFLogo($log["filter_id"], $log["filter"]).date("Y年m月d日", $time).' ('.$C["day"][date("w", $time)].') '.date("H:i", $time).'：';
 		$message .= '<a href="https://zh.wikipedia.org/wiki/Special:Contributions/'.rawurlencode($log["user"]).'">'.$log["user"].'</a> (<a href="https://zh.wikipedia.org/wiki/User_talk:'.rawurlencode($log["user"]).'">對話</a>) ';
