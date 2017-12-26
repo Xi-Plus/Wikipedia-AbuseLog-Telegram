@@ -16,6 +16,9 @@ function Result($result='') {
 		case '':
 			return '無';
 		
+		case 'disallow,tag':
+			return '⛔️,🔖';
+		
 		default:
 			return $result;
 	}
