@@ -67,7 +67,7 @@ if (count($res["query"]["abuselog"])) {
 			}
 			$message .= ')';
 		}
-		$commend = 'curl https://api.telegram.org/bot'.$C['token'].'/sendMessage -d "chat_id='.$C['chat_id'].'&parse_mode=HTML&disable_web_page_preview=1&text='.urlencode($message).'"';
+		$commend = 'curl https://api.telegram.org/bot'.$C['token'].'/sendMessage -d "chat_id='.$C['chat_id'].'&parse_mode=HTML&disable_web_page_preview=1&text='.urlencode($message).'" > /dev/null 2>&1';
 		system($commend);
 		echo "\n";
 	}
