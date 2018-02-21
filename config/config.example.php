@@ -1,7 +1,18 @@
 <?php
 
 $C['token'] = 'token';
-$C['chat_id'] = 'chat_id';
+$C['chat_id'] = [
+	'chat_id_1' => function($filter_id, $title, $action, $user, $result) {
+		return true;
+	},
+	'chat_id_2' => function($filter_id, $title, $action, $user, $result) {
+		if ($filter_id == 50) {
+			return true;
+		} else {
+			return false;
+		}
+	} 
+];
 
 $C['blacklist'] = [];
 
