@@ -58,7 +58,7 @@ if (count($res["query"]["abuselog"])) {
 			$message .= '觸發了 <a href="https://zh.wikipedia.org/wiki/Special:AbuseFilter/'.$log["filter_id"].'">過濾器 '.$log["filter_id"].'</a>。 ';
 		}
 		$message .= '採取的行動：'.Result($log["result"]).'； ';
-		$message .= '過濾器描述：'.$log["filter"].' ';
+		$message .= '過濾器描述：'.parsewikitext($log["filter"]).' ';
 		if (isset($log["id"]) || isset($log["revid"])) {
 			$message .= '(';
 			if (isset($log["id"])) {
